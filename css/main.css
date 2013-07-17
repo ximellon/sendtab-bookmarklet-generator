@@ -1,0 +1,29 @@
+/* class specific styling rules */
+
+.hidden, .controls .hidden {
+	display: none;
+} 
+
+input.input-xlarge {
+	width: 310px;
+	height: 100%;
+	font-size: 3em;
+	line-height: normal;
+}
+
+.sep {
+	margin-bottom: 0.7%;
+}
+
+
+/* id specific styling rules */
+
+#wrap {
+	display: table;
+	margin: 0 auto;
+}
+
+#cell {
+	display: table-cell;
+	vertical-align: middle;
+}

@@ -6,92 +6,9 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="./js/jquery.md5.js"></script>
 		<script src="./js/bootstrap.js"></script>
-		<script>
-			function reset()
-			{
-				var group = $('#group');
-				group.siblings().addClass('hidden');
-				group.parent().parent().removeClass('error')
-
-				var password = $('#password');
-				password.siblings().addClass('hidden');
-				password.parent().parent().removeClass('error');
-			}
-
-			function generator()
-			{
-				var username = $('#group').val();
-				var password = $('#password').val();
-				
-				if(username.length != 0 && password.length != 0)
-				{
-					var bookmarklet = "javascript:(function(){_my_script=document.createElement('SCRIPT');_my_script.type='text/javascript';_my_script.src='http://sendtab.com/bookmarklet?auth=AUTH_MD5_HASH&amp;x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(_my_script);})();"
-
-					var authstring = $.md5($('#group').val().toLowerCase() + $('#password').val());
-					var generated = bookmarklet.replace('AUTH_MD5_HASH', authstring);
-
-					$('#output').show();
-					$('#code').text(generated);
-					$('#wrap').css('height', Math.floor($('#code').outerHeight()) + 'px');
-					$('#link').attr('href', generated);
-
-					reset();
-				}
-				else
-				{
-					reset();
-
-					if(username.length == 0)
-					{
-						var group = $('#group');
-						group.siblings().removeClass('hidden');
-						group.parent().parent().addClass('error')
-					}
-					if(password.length == 0)
-					{
-						var password = $('#password');
-						password.siblings().removeClass('hidden');
-						password.parent().parent().addClass('error');
-					}
-				}
-			};
-
-			$(function() {
-				$('#reset').click(function() {
-					$('#output').hide();
-					reset();
-				});
-			});
-		</script>
+		<script src="./js/main.js"></script>
 		<link rel="stylesheet" href="./css/bootstrap.css" />
-		<style>
-			.hidden, .controls .hidden {
-				display: none;
-			} 
-			input.input-xlarge {
-				width: 310px;
-				height: 100%;
-				font-size: 3em;
-				line-height: normal;
-			}
-			/*
-			.form-horizontal .label-xlarge {
-				font-size: 1.2em;
-				padding-top: 15px;
-			}
-			*/
-			.sep {
-				margin-bottom: 0.7%;
-			}
-			#wrap {
-				display: table;
-				margin: 0 auto;
-			}
-			#cell {
-				display: table-cell;
-				vertical-align: middle;
-			}
-		</style>
+		<link rel="stylesheet" href="./css/main.css" />
 	</head>
 	<body>
 		<div class="container">
@@ -102,30 +19,6 @@
 			</div>
 			<div class="row">
 				<div class="span6 offset1">
-					<!--
-					<form class="form-horizontal" action="javascript: generator();">
-						<div class="control-group">
-							<label class="control-label label-xlarge" for="group">Group Name</label>
-							<div class="controls">
-								<input class="input-xlarge" id="group" type="text" placeholder="Group Name" />
-								<span class="help-inline hidden">Cannot be empty!</span>
-							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label label-xlarge" for="password">Password</label>
-							<div class="controls">
-								<input class="input-xlarge" id="password" type="password" placeholder="Password" />
-								<span class="help-inline hidden">Cannot be empty!</span>
-							</div>
-						</div>
-						<div class="control-group">
-							<div class="controls">
-								<input type="submit" class="btn btn-primary btn-large" />
-								<input type="reset" class="btn btn-large" id="reset" />
-							</div>
-						</div>
-					</form>
-					-->
 					<form action="javascript: generator();">
 						<div class="control-group sep">
 							<div class="controls">
