@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SendTab Bookmarklet</title>
+		<meta charset="utf-8" />
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="./js/jquery.md5.js"></script>
+		<script src="./js/bootstrap.js"></script>
+		<script>
+			function reset()
+			{
+				var group = $('#group');
+				group.siblings().addClass('hidden');
+				group.parent().parent().removeClass('error')
+
+				var password = $('#password');
+				password.siblings().addClass('hidden');
+				password.parent().parent().removeClass('error');
+			}
+
+			function generator()
+			{
+				var username = $('#group').val();
+				var password = $('#password').val();
+				
+				if(username.length != 0 && password.length != 0)
+				{
+					var bookmarklet = "javascript:(function(){_my_script=document.createElement('SCRIPT');_my_script.type='text/javascript';_my_script.src='http://sendtab.com/bookmarklet?auth=AUTH_MD5_HASH&amp;x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(_my_script);})();"
+
+					var authstring = $.md5($('#group').val().toLowerCase() + $('#password').val());
+					var generated = bookmarklet.replace('AUTH_MD5_HASH', authstring);
+
+					$('#output').show();
+					$('#code').text(generated);
+					$('#wrap').css('height', Math.floor($('#code').outerHeight()) + 'px');
+					$('#link').attr('href', generated);
+
+					reset();
+				}
+				else
+				{
+					reset();
+
+					if(username.length == 0)
+					{
+						var group = $('#group');
+						group.siblings().removeClass('hidden');
+						group.parent().parent().addClass('error')
+					}
+					if(password.length == 0)
+					{
+						var password = $('#password');
+						password.siblings().removeClass('hidden');
+						password.parent().parent().addClass('error');
+					}
+				}
+			};
+
+			$(function() {
+				$('#reset').click(function() {
+					$('#output').hide();
+					reset();
+				});
+			});
+		</script>
+		<link rel="stylesheet" href="./css/bootstrap.css" />
+		<style>
+			.hidden, .controls .hidden {
+				display: none;
+			} 
+			input.input-xlarge {
+				width: 310px;
+				height: 100%;
+				font-size: 3em;
+				line-height: normal;
+			}
+			/*
+			.form-horizontal .label-xlarge {
+				font-size: 1.2em;
+				padding-top: 15px;
+			}
+			*/
+			.sep {
+				margin-bottom: 0.7%;
+			}
+			#wrap {
+				display: table;
+				margin: 0 auto;
+			}
+			#cell {
+				display: table-cell;
+				vertical-align: middle;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="hero-unit">
+				<h1>SendTab <small>Bookmarklet Generator</small></h1>
+				<p><a href="http://sendtab.com">SendTab</a> is a service that gives you the ability to send any browsing tab to another supported device. And this app will help you to generate a <em>bookmarklet</em> which can be easily added to any browsers.</p>
+				<p>I've created this app originally to make adding the bookmarklet to Safari on iOS more easily. But it can also be used to generate any bookmarklet that could help you to share tabs in a private group.</p>
+			</div>
+			<div class="row">
+				<div class="span6 offset1">
+					<!--
+					<form class="form-horizontal" action="javascript: generator();">
+						<div class="control-group">
+							<label class="control-label label-xlarge" for="group">Group Name</label>
+							<div class="controls">
+								<input class="input-xlarge" id="group" type="text" placeholder="Group Name" />
+								<span class="help-inline hidden">Cannot be empty!</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label label-xlarge" for="password">Password</label>
+							<div class="controls">
+								<input class="input-xlarge" id="password" type="password" placeholder="Password" />
+								<span class="help-inline hidden">Cannot be empty!</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="controls">
+								<input type="submit" class="btn btn-primary btn-large" />
+								<input type="reset" class="btn btn-large" id="reset" />
+							</div>
+						</div>
+					</form>
+					-->
+					<form action="javascript: generator();">
+						<div class="control-group sep">
+							<div class="controls">
+								<input class="input-xlarge" id="group" type="text" placeholder="Group Name" />
+								<span class="help-inline hidden">Cannot be empty!</span>
+							</div>
+						</div>
+						<div class="control-group sep">
+							<div class="controls">
+								<input class="input-xlarge" id="password" type="password" placeholder="Password" />
+								<span class="help-inline hidden">Cannot be empty!</span>
+							</div>
+						</div>
+						<div class="control-group sep">
+							<div class="controls">
+								<input type="submit" class="btn btn-primary btn-large" />
+								<input type="reset" class="btn btn-large" id="reset" />
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="span4">
+					<div class="alert alert-info">
+						<h2>Tips</h2>
+						<ul>
+							<li><em>Group Name</em> is case-insensitive.</li>
+							<li><em>Password</em> is CASE-SENSITIVE.</li>
+							<li>Result will be generated every time you press <em>Submit</em> if there's no error.</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="row hidden" id="output">
+				<hr />
+				<div class="span6">
+					<p>Copy the following code to create a bookmarklet on you own.</p>
+					<pre id="code"></pre>
+				</div>
+				<div class="span6">
+					<p>Or just drag THIS to your bookmarks bar to get it work!</p>
+					<div id="wrap">
+						<div id="cell">
+							<a class="btn btn-info btn-large" id="link">SendTab</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
