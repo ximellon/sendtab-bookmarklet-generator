@@ -1,9 +1,5 @@
 /* class specific styling rules */
 
-.hidden, .controls .hidden {
-	display: none;
-} 
-
 input.input-xlarge {
 	width: 310px;
 	height: 100%;
